@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { notifications, type NotifLog, type NotifTemplate } from "@/lib/api";
+import { useOnboarding } from "@/components/OnboardingTour";
 
 const STATUS_BADGE: Record<string, string> = {
   sent: "badge-green",
@@ -48,6 +49,7 @@ function Modal({
 }
 
 export default function NotificationsPage() {
+  const { startModalTour } = useOnboarding();
   const [logs, setLogs] = useState<NotifLog[]>([]);
   const [templates, setTemplates] = useState<NotifTemplate[]>([]);
   const [total, setTotal] = useState(0);
@@ -158,7 +160,13 @@ export default function NotificationsPage() {
           </p>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => setShowTemplate(true)} className="btn-ghost">
+          <button
+            onClick={() => {
+              setShowTemplate(true);
+              startModalTour("create-notification");
+            }}
+            className="btn-ghost"
+          >
             Shablon
           </button>
           <button onClick={() => setShowSend(true)} className="btn-primary">

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { edgeFunctions, type EdgeFunction } from "@/lib/api";
+import { useOnboarding } from "@/components/OnboardingTour";
 
 const STARTER = `// Edge funksiya — req.body dan ma'lumot oling, return bilan javob yuboring
 
@@ -49,6 +50,7 @@ function Modal({
 }
 
 export default function FunctionsPage() {
+  const { startModalTour } = useOnboarding();
   const [list, setList] = useState<EdgeFunction[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<EdgeFunction | null>(null);
@@ -76,6 +78,11 @@ export default function FunctionsPage() {
   useEffect(() => {
     load();
   }, []);
+
+  const openCreate = () => {
+    setShowCreate(true);
+    startModalTour("create-function");
+  };
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -143,7 +150,7 @@ export default function FunctionsPage() {
             Serverless JavaScript funksiyalarini yozing va chaqiring
           </p>
         </div>
-        <button onClick={() => setShowCreate(true)} className="btn-primary">
+        <button onClick={openCreate} className="btn-primary">
           + Yangi funksiya
         </button>
       </div>
@@ -165,7 +172,7 @@ export default function FunctionsPage() {
               Serverless funksiya yozing va API orqali chaqiring
             </p>
           </div>
-          <button onClick={() => setShowCreate(true)} className="btn-primary">
+          <button onClick={openCreate} className="btn-primary">
             Funksiya yaratish
           </button>
         </div>

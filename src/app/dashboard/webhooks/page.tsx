@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { webhooks, type Webhook } from "@/lib/api";
+import { useOnboarding } from "@/components/OnboardingTour";
 
 const EVENTS = [
   "collection.created",
@@ -51,6 +52,7 @@ function Modal({
 }
 
 export default function WebhooksPage() {
+  const { startModalTour } = useOnboarding();
   const [list, setList] = useState<Webhook[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
@@ -73,6 +75,11 @@ export default function WebhooksPage() {
   useEffect(() => {
     load();
   }, []);
+
+  const openCreate = () => {
+    setShowCreate(true);
+    startModalTour("create-webhook");
+  };
 
   const toggleEvent = (ev: string) =>
     setForm((f) => ({
@@ -128,7 +135,7 @@ export default function WebhooksPage() {
             Hodisalarga asoslangan integratsiyalar
           </p>
         </div>
-        <button onClick={() => setShowCreate(true)} className="btn-primary">
+        <button onClick={openCreate} className="btn-primary">
           + Yangi webhook
         </button>
       </div>
@@ -200,7 +207,7 @@ export default function WebhooksPage() {
               Tashqi integratsiyalar uchun webhook yarating
             </p>
           </div>
-          <button onClick={() => setShowCreate(true)} className="btn-primary">
+          <button onClick={openCreate} className="btn-primary">
             Webhook yaratish
           </button>
         </div>

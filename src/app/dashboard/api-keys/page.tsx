@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { apiKeys, type ApiKey } from "@/lib/api";
+import { useOnboarding } from "@/components/OnboardingTour";
 
 function fmt(d: string | null) {
   if (!d) return "—";
@@ -46,6 +47,7 @@ function Modal({
 }
 
 export default function ApiKeysPage() {
+  const { startModalTour } = useOnboarding();
   const [keys, setKeys] = useState<ApiKey[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
@@ -70,6 +72,11 @@ export default function ApiKeysPage() {
   useEffect(() => {
     load();
   }, []);
+
+  const openCreate = () => {
+    setShowCreate(true);
+    startModalTour("create-api-key");
+  };
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,7 +129,7 @@ export default function ApiKeysPage() {
             Ilovangiz uchun xavfsiz API kalitlarini yarating
           </p>
         </div>
-        <button onClick={() => setShowCreate(true)} className="btn-primary">
+        <button onClick={openCreate} className="btn-primary">
           + Yangi kalit
         </button>
       </div>
@@ -195,7 +202,7 @@ export default function ApiKeysPage() {
               Ilovangizga kirish uchun kalit yarating
             </p>
           </div>
-          <button onClick={() => setShowCreate(true)} className="btn-primary">
+          <button onClick={openCreate} className="btn-primary">
             Kalit yaratish
           </button>
         </div>

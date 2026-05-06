@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import { collections, type Collection, type Field, ApiError } from "@/lib/api";
+import { useOnboarding } from "@/components/OnboardingTour";
 
 const FIELD_TYPES = [
   "string",
@@ -59,6 +60,7 @@ function Modal({
 }
 
 export default function CollectionsPage() {
+  const { startModalTour } = useOnboarding();
   const [schemas, setSchemas] = useState<Collection[]>([]);
   const [selected, setSelected] = useState<Collection | null>(null);
   const [records, setRecords] = useState<Record<string, unknown>[]>([]);
@@ -108,6 +110,11 @@ export default function CollectionsPage() {
     setSelected(col);
     setNewRecord({});
     fetchRecords(col, 1);
+  };
+
+  const openCreate = () => {
+    setShowCreate(true);
+    startModalTour("create-collection");
   };
 
   const deleteSchema = async (name: string) => {
@@ -208,7 +215,7 @@ export default function CollectionsPage() {
             Ma'lumotlar bazasi jadvallarini boshqaring
           </p>
         </div>
-        <button onClick={() => setShowCreate(true)} className="btn-primary">
+        <button onClick={openCreate} className="btn-primary">
           <span>+</span> Yangi kolleksiya
         </button>
       </div>
@@ -224,13 +231,12 @@ export default function CollectionsPage() {
               Birinchi jadvalingizni yarating
             </p>
           </div>
-          <button onClick={() => setShowCreate(true)} className="btn-primary">
+          <button onClick={openCreate} className="btn-primary">
             Kolleksiya yaratish
           </button>
         </div>
       ) : (
         <div className="flex gap-5 flex-col lg:flex-row">
-          {/* Schema list */}
           <div className="lg:w-56 space-y-1.5 shrink-0">
             {schemas.map((col) => (
               <div
@@ -281,7 +287,6 @@ export default function CollectionsPage() {
             ))}
           </div>
 
-          {/* Records panel */}
           {selected ? (
             <div className="flex-1 card overflow-hidden">
               <div
