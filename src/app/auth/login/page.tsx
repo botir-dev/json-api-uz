@@ -87,19 +87,21 @@ export default function LoginPage() {
   const leftPanel = (
     <div className="hidden lg:flex lg:w-1/2 bg-zinc-950 flex-col p-14 relative overflow-hidden">
       <div
-        className="absolute inset-0 opacity-20"
+        className="absolute inset-0 opacity-[0.07]"
         style={{
           backgroundImage:
             "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
+          backgroundSize: "60px 60px",
         }}
       />
+      {/* Decorative glow */}
+      <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2 pointer-events-none" />
       <div className="relative z-10 flex flex-col h-full">
-        <div className="flex items-center gap-3 mb-auto">
+        <div className="flex items-center gap-3">
           <div className="grid grid-cols-2 gap-1">
             <div className="w-4 h-4 bg-zinc-500 rounded-sm" />
-            <div className="w-4 h-4 bg-zinc-400 rounded-sm" />
-            <div className="w-4 h-4 bg-zinc-600 rounded-sm" />
+            <div className="w-4 h-4 bg-zinc-300 rounded-sm" />
+            <div className="w-4 h-4 bg-zinc-700 rounded-sm" />
             <div className="w-4 h-4 bg-zinc-500 rounded-sm" />
           </div>
           <span className="text-white font-display text-xl font-bold tracking-wide">
@@ -114,12 +116,12 @@ export default function LoginPage() {
             <br />
             backend.&rdquo;
           </blockquote>
-          <p className="text-zinc-500 text-sm max-w-xs">
+          <p className="text-zinc-500 text-sm max-w-xs leading-relaxed">
             Kolleksiyalar, API kalitlar, webhooklar va analitikani bir joyda
             boshqaring.
           </p>
         </div>
-        <div className="flex gap-10 pt-8 border-t border-zinc-800">
+        <div className="flex gap-10 pt-8 border-t border-zinc-800/80">
           {[
             { val: "99.9%", label: "Uptime SLA" },
             { val: "< 80ms", label: "O'rtacha javob" },
@@ -167,7 +169,7 @@ export default function LoginPage() {
               />
               {error && <p className="text-red-500 text-sm">{error}</p>}
               <button type="submit" className="auth-btn" disabled={loading}>
-                {loading ? <Spinner dark={false} /> : "Tasdiqlash"}
+                {loading ? <Spinner /> : "Tasdiqlash"}
               </button>
             </form>
             <button
@@ -297,7 +299,7 @@ export default function LoginPage() {
             )}
 
             <button type="submit" className="auth-btn" disabled={loading}>
-              {loading ? <Spinner dark={false} /> : "Kirish"}
+              {loading ? <Spinner /> : "Kirish"}
             </button>
           </form>
 
@@ -334,7 +336,6 @@ function EmailIcon() {
     </svg>
   );
 }
-
 function LockIcon() {
   return (
     <svg
@@ -353,7 +354,6 @@ function LockIcon() {
     </svg>
   );
 }
-
 function SlugIcon() {
   return (
     <svg
@@ -372,11 +372,8 @@ function SlugIcon() {
     </svg>
   );
 }
-
-function Spinner({ dark = true }: { dark?: boolean }) {
+function Spinner() {
   return (
-    <span
-      className={`inline-block w-4 h-4 border-2 rounded-full animate-spin ${dark ? "border-zinc-300 border-t-zinc-900" : "border-white/30 border-t-white"}`}
-    />
+    <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
   );
 }
